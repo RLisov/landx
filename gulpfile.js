@@ -37,6 +37,10 @@ var path = {
     clean: './build'
 };
 
+var bootstrapSass = {
+        in: './bower_components/bootstrap-sass-official/'
+    };
+
 var config = {
     server: {
         baseDir: "./build"
@@ -76,6 +80,19 @@ gulp.task('style:build', function () {
         .pipe(reload({stream: true}));
 });
 
+gulp.task('image:build', function () {
+    gulp.src(path.src.img) //Выберем наши картинки
+        .pipe(imagemin({ //Сожмем их
+            progressive: true,
+            svgoPlugins: [{removeViewBox: false}],
+            use: [pngquant()],
+            interlaced: true
+        }))
+        .pipe(gulp.dest(path.build.img)) //И бросим в build
+        .pipe(reload({stream: true}));
+});
+
+
 gulp.task('webserver', function () {
     browserSync(config);
 });
@@ -83,7 +100,8 @@ gulp.task('webserver', function () {
 gulp.task('build',[
     'html:build',
     'js:build',
-    'css:build' 
+    'style:build',
+    'image:build'
 ]);
 
 gulp.task('watch',function(){
@@ -94,7 +112,11 @@ gulp.task('watch',function(){
         gulp.start('html:build');
     });
     watch([path.watch.style],function(ev,callback){
-        gulp.start('css:build');
+        gulp.start('style:build');
+
+    });
+     watch([path.watch.img], function(event, cb) {
+        gulp.start('image:build');
     });
 });
 
