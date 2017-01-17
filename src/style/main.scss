@@ -2,9 +2,16 @@
 * Third Party
 */
 @import "../../bower_components/normalize.css/normalize.css";
-/*@import "bootstrap";
-@import "bootstrap/theme";*/
+@import "../../bower_components/bootstrap-sass/assets/stylesheets/_bootstrap";
+@import "../../bower_components/font-awesome/scss/font-awesome";
+
+/*
+* Helpers
+*/
+
+@import "variables";
+
 /*
 * Custom
 */
-@import "partials/app";
+@import "app";
